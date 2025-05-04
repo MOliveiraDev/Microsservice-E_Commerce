@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  auth-security:
+    image: auth_security_image:latest
+    container_name: auth_security_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - kafka
+    environment:
+      SPRING_SOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
+      SPRING_SOURCE_USERNAME: oliverdev
+      SPRING_SOURCE_PASSWORD: Senha123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+    networks:
+      - ecommerce_network
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: oliverdev
+      POSTGRES_PASSWORD: Senha123
+      POSTGRES_DB: auth_db
+    ports:
+      - "5432:5432"
+    networks:
+      - ecommerce_network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_KEEPER_CLIENT_PORT: 2181
+      ZOO_KEEPER_TICK_TIME: 2000
+    networks:
+        - ecommerce_network
+networks:
+    ecommerce_network:
+        driver: bridge
