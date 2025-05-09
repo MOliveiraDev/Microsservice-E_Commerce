@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  auth_db:
+    image: postgres:lastest
+    container_name: auth_db
+    environment:
+      POSTGRES_USER: oliverdev
+      POSTGRES_PASSWORD: Senha123$
+      POSTGRES_DB: auth_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+
+  authentication:
+    build: .
+    container_name: authentication-service-dev
+    ports:
+      - "8081:8081"
+    depends_on:
+      - auth_db
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    volumes:
+      - .:/app
+      - /app/target:/app/target
+
