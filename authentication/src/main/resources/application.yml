@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: authenticaiton
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce
+    username: admin
+    password: admin123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  profiles:
+    active: dev
+
+server:
+  port: 8081
+
+auth:
+  jwt:
+    secret: ${JWT_SECRET:secret-key} # Em produção, usar variável de ambiente
+    expiration: 86400 # 24 horas em segundos
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
