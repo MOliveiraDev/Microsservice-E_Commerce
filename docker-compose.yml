@@ -1,9 +1,8 @@
 version: '3.8'
 
 services:
-  # Banco de dados PostgreSQL
   postgres:
-    image: postgres:17
+    image: postgres:16-alpine3.20
     container_name: postgres
     environment:
       POSTGRES_USER: admin
@@ -16,7 +15,6 @@ services:
     networks:
       - ecommerce-net
 
-  # Kafka
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper
@@ -46,7 +44,6 @@ services:
     networks:
       - ecommerce-net
 
-  # Serviços
   auth-service:
     build: ./authentication
     container_name: auth-service
