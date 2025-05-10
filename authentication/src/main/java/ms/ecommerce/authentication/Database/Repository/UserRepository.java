@@ -1,4 +1,12 @@
 package ms.ecommerce.authentication.Database.Repository;
 
-public class UserRepository {
+import ms.ecommerce.authentication.Database.Entity.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<UserEntity, UUID> {
+    Optional<UserEntity> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
