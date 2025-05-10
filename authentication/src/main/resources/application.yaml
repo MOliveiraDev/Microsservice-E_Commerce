@@ -1,1 +1,38 @@
-spring.application.name=authentication
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://postgres:5432/ecommerce
+    username: admin
+    password: admin123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  profiles:
+    active: docker
+
+server:
+  port: 8080
+
+auth:
+  jwt:
+    secret: ${JWT_SECRET:secret-key-1234567890-secret-key-1234567890}
+    expiration: ${JWT_EXPIRATION:86400000} # 24 horas em milissegundos
+    issuer: ${JWT_ISSUER:ecommerce-auth}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
