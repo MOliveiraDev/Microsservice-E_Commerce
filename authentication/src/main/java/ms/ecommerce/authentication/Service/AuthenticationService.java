@@ -1,5 +1,7 @@
 package ms.ecommerce.authentication.Service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import ms.ecommerce.authentication.Database.Entity.TokenEntity;
 import ms.ecommerce.authentication.Database.Entity.UserEntity;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticaitonService {
+public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -80,5 +82,18 @@ public class AuthenticaitonService {
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        var authHeader = request.getHeader("Authorization");
+        var jwt = authHeader.substring(7);
+        var storedToken = tokenRepository.findByToken(jwt)
+                .orElse(null);
+
+        if (storedToken != null) {
+            storedToken.setExpired(true);
+            storedToken.setRevoked(true);
+            tokenRepository.save(storedToken);
+        }
     }
 }
