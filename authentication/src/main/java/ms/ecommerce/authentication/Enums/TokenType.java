@@ -1,4 +1,6 @@
 package ms.ecommerce.authentication.Enums;
 
-public enum Token {
+public enum TokenType {
+
+    BEARER,
 }
