@@ -21,7 +21,7 @@ server:
 
 auth:
   jwt:
-    secret: ${JWT_SECRET:secret-key} # Em produção, usar variável de ambiente
+    secret: ${JWT_SECRET:secret-key}
     expiration: 86400 # 24 horas em segundos
 
 management:
